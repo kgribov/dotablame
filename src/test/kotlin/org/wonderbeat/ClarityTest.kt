@@ -1,15 +1,8 @@
 package org.wonderbeat
 
-import org.joda.time.format.PeriodFormatterBuilder
 import org.junit.Test
-import org.slf4j.LoggerFactory
 import skadistats.clarity.Clarity
 import skadistats.clarity.model.Entity
-import skadistats.clarity.model.FieldPath
-import skadistats.clarity.processor.entities.OnEntityCreated
-import skadistats.clarity.processor.entities.OnEntityUpdated
-import skadistats.clarity.processor.entities.UsesEntities
-import skadistats.clarity.processor.runner.Context
 import skadistats.clarity.source.InputStreamSource
 import java.io.ByteArrayInputStream
 import java.util.*
@@ -17,55 +10,6 @@ import java.util.stream.StreamSupport
 
 
 class ClarityTest {
-
-
-    @UsesEntities
-    class TimeProcessor() {
-
-        private val logger = LoggerFactory.getLogger("org.wonderbeat.dotablame")
-
-        @OnEntityUpdated
-        fun onCreated(ctx: Context, e: Entity, updatedPaths: Array<FieldPath>, updateCount: Int) {
-            val updatedWardsPath = e.dtClass.collectFieldPaths(e.state).forEach {
-                if(e.dtClass.getNameForFieldPath(it).contains("m_fGameTime")) {
-                    logger.debug("time: ${e.getProperty<Float>("m_pGameRules.m_fGameTime")}")
-                }
-            }
-        }
-
-    }
-
-    @UsesEntities
-    class GameStartedProcessor() {
-
-        private val logger = LoggerFactory.getLogger("org.wonderbeat.dotablame")
-
-        fun Entity.isRune(): Boolean = this.getDtClass().getDtName().contains("Rune");
-
-        private var isStarted = false
-
-        @OnEntityCreated
-        fun onCreated(ctx: Context, e: Entity) {
-            if(e.isRune() && !isStarted ) {
-                logger.info("Game started at ${ctx.tick}")
-                isStarted = true
-            }
-        }
-
-    }
-
-    val GAMETIME_FORMATTER = PeriodFormatterBuilder()
-            .minimumPrintedDigits(2)
-            .printZeroAlways()
-            .appendHours()
-            .appendLiteral(":")
-            .appendMinutes()
-            .appendLiteral(":")
-            .appendSeconds()
-            .appendLiteral(".")
-            .appendMillis3Digit()
-            .toFormatter();
-
     fun <T> T?.orElse(default: () -> T?): T? = if(this != null) this else default()
 
     @Test fun testClarity() {

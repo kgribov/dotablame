@@ -39,12 +39,12 @@ class DrawHeroPath {
                 .map { it.updated }
                 .forEach {
                     it.filter { (it as Hero).team == 2 }.forEach {
-                        graphics.color = Color(0,0,0,70)
+                        graphics.color = Color(0,0,0,50)
 
                         graphics.draw(Rectangle(((it as Hero).coord.x * 2).toInt(), (it.coord.y * 2).toInt(), 1, 1))
                     }
                     it.filter { (it as Hero).team == 3 }.forEach {
-                        graphics.color = Color(255,0,0,70)
+                        graphics.color = Color(255,0,0,50)
                         graphics.draw(Rectangle(((it as Hero).coord.x * 2).toInt(), (it.coord.y * 2).toInt(), 1, 1))
                     }
                 }
