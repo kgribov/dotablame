@@ -2,6 +2,8 @@ package org.wonderbeat
 
 import org.joda.time.Duration
 import skadistats.clarity.model.Entity
+import java.util.*
+import java.util.function.BiFunction
 
 interface GameEntity
 data class GameEntityFrame(val timestamp: Duration,
@@ -63,12 +65,34 @@ fun Entity.extractHero(): Hero? = this.dtClass.dtName.contains("unit", true)
     )
 }
 
-data class Item(val id: Int, val name: String, val itemsOwnerId: Int, val cooldown: Double, val charges: Int)
-fun Entity.extractItem(): Item? = this.dtClass.dtName.contains("_Item_").then {
+data class Item(val id: Int, val name: String, val itemsOwnerId: Int, val cooldown: Float, val charges: Int): GameEntity
+fun Entity.extractItem(): Item? = (this.dtClass.dtName.contains("_Item_") &&
+                                    this.getProperty<Int>("m_iTeamNum") != 4) // Rune or smth that environmental
+        .then {
     Item(this.serial,
             this.dtClass.dtName.substringAfterLast('_'),
             this.getProperty("m_hOwnerEntity"),
-            this.getProperty("m_flCooldownLength"),
+            this.getProperty<Float>("m_flCooldownLength"),
             this.getProperty("m_iCurrentCharges")
             )
+}
+
+data class HeroWithInventory(val hero: Hero, val items: Set<Item>): GameEntity
+
+class HeroAssembler {
+    val heroToItems = HashMap<Hero, Set<Item>>()
+    val ownerIdToHero = HashMap<Int, Hero>()
+
+    fun assemble(frame: GameEntityFrame): GameEntityFrame {
+        (frame.created + frame.updated).filterIsInstance<Hero>().forEach {
+            heroToItems.computeIfAbsent(it, {setOf()})
+            ownerIdToHero.put(it.itemsOwnerId, it)
+        }
+        (frame.created + frame.updated).filterIsInstance<Item>().forEach { item ->
+            heroToItems.compute(ownerIdToHero[item.itemsOwnerId], BiFunction { key: Hero, oldVal: Set<Item> -> oldVal + item })
+        }
+        return GameEntityFrame(frame.timestamp, frame.created, frame.updated +
+                heroToItems.map { HeroWithInventory(it.key, it.value) },
+                frame.deleted)
+    }
 }
