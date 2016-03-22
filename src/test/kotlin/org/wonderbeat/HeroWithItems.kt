@@ -21,7 +21,6 @@ class HeroWithItems {
         val heroassebmle = HeroAssembler()
         StreamSupport.stream(Spliterators.spliterator(frameSource.iterator(), info.playbackTicks.toLong(), Spliterator.NONNULL.or(Spliterator.DISTINCT)), false)
                 .skip(50000)
-                .limit(2000)
                 .map { it.toTimestamped() }
                 .filter { it.timestamp != null }
                 .map {
@@ -29,11 +28,10 @@ class HeroWithItems {
                     GameEntityFrame(it.timestamp!!, it.frame.created.extract(), it.frame.updated.extract(), it.frame.deleted.extract())
                 }
                 .map { heroassebmle.assemble(it) }
-                .forEach {
-                    it.updated.filterIsInstance<HeroWithInventory>().forEach {
-                        println(it)
-                    }
-                }
+                .map { it.updated.filterIsInstance<HeroWithInventory>().filter { a -> a.items.size != 0 } }
+                .filter { it.isNotEmpty() }
+                .limit(5)
+                .forEach { println(it.first()) }
     }
 }
 
