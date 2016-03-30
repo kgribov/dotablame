@@ -14,59 +14,108 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>net.sf.trove4j</groupId>
-            <artifactId>trove4j</artifactId>
-            <version>3.0.3</version>
-        </dependency>
+
+        <!-- Dota -->
+
         <dependency>
             <groupId>com.skadistats</groupId>
             <artifactId>clarity</artifactId>
             <version>2.1-SNAPSHOT</version>
         </dependency>
+
+        <!-- Java -->
+
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>1.0.1</version>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
+            <version>3.0.3</version>
         </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.funktionale</groupId>
-            <artifactId>funktionale</artifactId>
-            <version>0.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>1.7.16</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.spek</groupId>
-            <artifactId>spek</artifactId>
-            <version>0.1.195</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.9.2</version>
         </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>16.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.rholder</groupId>
+            <artifactId>guava-retrying</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+        <!-- Kotlin -->
+
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.funktionale</groupId>
+            <artifactId>funktionale</artifactId>
+            <version>0.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.spek</groupId>
+            <artifactId>spek</artifactId>
+            <version>0.1.195</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Reactor -->
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-stream</artifactId>
+            <version>2.0.7.RELEASE</version>
+        </dependency>
+
+        <!-- Json -->
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>2.7.1-2</version>
+        </dependency>
+
+        <!-- Http -->
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+        <!-- Logging -->
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.7.16</version>
+        </dependency>
+
+        <!-- Testing -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
